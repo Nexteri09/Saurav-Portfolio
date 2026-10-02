@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" href="images/saurav_avatar_sq.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
 </head>
@@ -113,9 +113,9 @@
 
       <nav class="studio-nav">
         <a href="#work" class="nav-item">Work</a>
-        <a href="#how-i-work" class="nav-item">How I Work</a>
         <a href="#about" class="nav-item">About</a>
         <a href="#contact" class="nav-item">Contact</a>
+        <a href="Saurav_Karande_Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-item" id="navResumeBtn">Resume</a>
       </nav>
     </div>
   </header>
@@ -161,15 +161,15 @@
       <div class="projects-grid">
         <!-- PROJECT 01: SubSync -->
         <article class="project-showcase-card" id="project-subsync">
-          <div class="project-media-wrap" id="btnOpenSubsyncCard" role="button" tabindex="0" aria-label="Open SubSync Case Study">
+          <a href="https://www.behance.net/gallery/255339935/SubSync-Subscription-Management-Mobile-App?platform=direct" target="_blank" rel="noopener noreferrer" class="project-media-wrap" id="btnOpenSubsyncCard" aria-label="Open SubSync Case Study in a new tab">
             <img src="images/subsync_cover.png" alt="SubSync App Mockup" class="project-media-img" loading="lazy">
             <div class="project-media-overlay">
               <span class="media-hover-pill">
                 <span>View Case Study</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
               </span>
             </div>
-          </div>
+          </a>
 
           <div class="project-meta-row">
             <div class="project-tag-list">
@@ -182,9 +182,9 @@
               A simple subscription management experience designed to help users track and manage recurring subscriptions.
             </p>
             <div class="project-action-col">
-              <button class="btn-clean-casestudy" id="btnOpenSubsyncModal" type="button">
+              <a href="https://www.behance.net/gallery/255339935/SubSync-Subscription-Management-Mobile-App?platform=direct" target="_blank" rel="noopener noreferrer" class="btn-clean-casestudy" id="btnOpenSubsyncModal">
                 View Case Study &rarr;
-              </button>
+              </a>
             </div>
           </div>
         </article>
@@ -430,28 +430,6 @@
   </main>
 
 
-  <!-- =========================================================================
-       CLEAN FULL-RES CASE STUDY MODAL LIGHTBOX (SUBSYNC)
-       ========================================================================= -->
-  <div class="case-modal" id="subsyncModal" role="dialog" aria-modal="true" aria-label="SubSync Case Study Slides">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <h4 class="modal-title">SubSync Case Study</h4>
-          <span class="modal-counter" id="modalSlideCounter">Board 1 of 6</span>
-        </div>
-        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">&times;</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-        <img src="images/subsync_overview.png" alt="SubSync Case Study Board" class="modal-slide-img" id="modalSlideImg">
-      </div>
-      <div class="modal-footer">
-        <button class="modal-nav-btn" id="btnModalPrev" type="button">&larr; Previous</button>
-        <span class="modal-caption" id="modalSlideCaption">Project Overview</span>
-        <button class="modal-nav-btn" id="btnModalNext" type="button">Next &rarr;</button>
-      </div>
-    </div>
-  </div>
 
 
   <!-- =========================================================================

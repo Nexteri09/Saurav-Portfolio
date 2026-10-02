@@ -391,24 +391,25 @@ body.sun-dragging {
 }
 
 .mark-name {
-  font-family: var(--font-sans);
-  font-size: clamp(2.45rem, 3.6vw, 3.25rem);
-  font-weight: 800;
-  -webkit-text-stroke: 2px var(--text-hero-title);
+  font-family: 'Space Grotesk', var(--font-sans);
+  font-size: clamp(2.7rem, 4.0vw, 3.6rem);
+  font-weight: 700;
+  -webkit-text-stroke: 1.5px var(--text-hero-title);
   color: transparent;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.045em;
   line-height: 0.95;
   display: inline-block;
   text-shadow: none;
-  transition: -webkit-text-stroke 0.3s ease, color 0.25s ease;
+  transition: -webkit-text-stroke 0.3s ease, color 0.25s ease, opacity 0.2s ease;
 }
 
 body.dark-strata .mark-name {
-  font-size: clamp(2.45rem, 3.6vw, 3.25rem);
-  font-weight: 800;
-  -webkit-text-stroke: 2px #ffffff;
+  font-family: 'Space Grotesk', var(--font-sans);
+  font-size: clamp(2.7rem, 4.0vw, 3.6rem);
+  font-weight: 700;
+  -webkit-text-stroke: 1.5px #ffffff;
   color: transparent;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.045em;
   line-height: 0.95;
   text-shadow: none;
 }
@@ -480,7 +481,7 @@ body.dark-strata .nav-item:hover {
   pointer-events: none;
 }
 
-/* Re-enable pointer events on all interactive items & readable text content */
+/* Re-enable pointer events ONLY on actual interactive controls */
 .exhibition-flow a,
 .exhibition-flow button,
 .exhibition-flow input,
@@ -497,13 +498,7 @@ body.dark-strata .nav-item:hover {
 .exhibition-flow .stat-block,
 .exhibition-flow .direct-link,
 .exhibition-flow .btn-unboxed-submit,
-.exhibition-flow .nav-item,
-.exhibition-flow .monument-title,
-.exhibition-flow .hero-manifesto-lead,
-.exhibition-flow .spec-caps,
-.exhibition-flow .head-title,
-.exhibition-flow .about-manifesto,
-.exhibition-flow .lead-text {
+.exhibition-flow .nav-item {
   pointer-events: auto;
 }
 
@@ -525,7 +520,9 @@ body.dark-strata .nav-item:hover {
 .hero-identity-line {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+  width: 100%;
+  max-width: 740px;
   margin-bottom: 28px;
   text-shadow: var(--text-shadow-active);
 }
@@ -541,6 +538,7 @@ body.dark-strata .nav-item:hover {
 }
 
 .monument-title {
+  max-width: 980px;
   font-family: var(--font-sans);
   font-size: clamp(2.4rem, 4.5vw, 3.8rem);
   font-weight: 700;
@@ -1307,132 +1305,7 @@ body.dark-strata .nav-item:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-.case-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(4, 6, 9, 0.94);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
 
-.case-modal.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-dialog {
-  max-width: 1020px;
-  width: 100%;
-  max-height: 92vh;
-  background: linear-gradient(180deg, #102448 0%, #0a1630 100%);
-  border: 1px solid rgba(110, 180, 255, 0.32);
-  border-radius: 18px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85), 0 0 50px rgba(40, 110, 240, 0.2);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 22px;
-  background: rgba(18, 38, 76, 0.95);
-  border-bottom: 1px solid rgba(100, 175, 255, 0.2);
-}
-
-.modal-title-group {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.modal-title {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  color: #ffffff;
-}
-
-.modal-counter {
-  font-family: var(--font-syne);
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.modal-close-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.modal-close-btn:hover {
-  background: #ffffff;
-  color: #0b0f14;
-}
-
-.modal-body {
-  overflow-y: auto;
-  max-height: calc(92vh - 120px);
-  padding: 20px;
-  background: #071224;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.modal-slide-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 22px;
-  background: rgba(14, 28, 58, 0.95);
-  border-top: 1px solid rgba(100, 175, 255, 0.18);
-}
-
-.modal-nav-btn {
-  background: rgba(25, 55, 110, 0.45);
-  border: 1px solid rgba(100, 175, 255, 0.28);
-  color: #ffffff;
-  padding: 7px 18px;
-  border-radius: 9999px;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.modal-nav-btn:hover {
-  background: #ffffff;
-  color: #0b0f14;
-}
 
 /* ==========================================================================
    DISPLAY OUTLINE TYPOGRAPHY UTILITIES
@@ -1974,6 +1847,9 @@ body.dark-strata .point-desc {
   border-radius: 18px;
   overflow: hidden;
   position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
   background: rgba(20, 56, 40, 0.08);
   border: 1px solid rgba(20, 56, 40, 0.14);
   box-shadow: 0 16px 36px -10px rgba(10, 40, 25, 0.18);
@@ -2144,6 +2020,7 @@ body.dark-strata .project-summary {
   background: transparent;
   border: 1.5px solid var(--text-hero-title);
   color: var(--text-hero-title);
+  text-decoration: none;
   font-family: var(--font-sans);
   font-size: 0.88rem;
   font-weight: 700;

@@ -114,6 +114,7 @@
   const layerSpeeds = [0.03, 0.06, 0.10, 0.15, 0.20, 0.25, 0.30, 0.36];
   const monumentTitle = document.querySelector('.monument-title');
   const markName = document.querySelector('.mark-name');
+  const heroIdLine = document.querySelector('.hero-identity-line');
 
   // =========================================================================
   // CELESTIAL ROTATING STAR FIELD (DPR-Crisp Pre-rendered Canvas, 120fps Rotation)
@@ -214,10 +215,21 @@
     return `rgb(${arr[0]}, ${arr[1]}, ${arr[2]})`;
   }
 
+  function syncHeroIdentityLineWidth() {
+    if (!monumentTitle || !heroIdLine) return;
+    const titleWidth = monumentTitle.getBoundingClientRect().width;
+    if (titleWidth > 0 && titleWidth < 740) {
+      heroIdLine.style.maxWidth = `${Math.round(titleWidth)}px`;
+    } else {
+      heroIdLine.style.maxWidth = '740px';
+    }
+  }
+
   // Cached layout metrics — NEVER query scrollHeight in the frame loop!
   let maxScroll = 1;
   function updateMetrics() {
     maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    syncHeroIdentityLineWidth();
   }
   updateMetrics();
   window.addEventListener('resize', updateMetrics, { passive: true });
@@ -589,7 +601,7 @@
       e.preventDefault();
     });
 
-    sunWrap.addEventListener('pointermove', (e) => {
+    window.addEventListener('pointermove', (e) => {
       if (!isDraggingSun) return;
       const dx = e.clientX - sunStartX;
       const dy = e.clientY - sunStartY;
@@ -603,13 +615,15 @@
       sunDragOffsetY = Math.max(-140, Math.min(window.innerHeight * 0.85, sunDragOffsetY));
 
       requestTick();
-    });
+    }, { passive: true });
 
     function finishSunDrag(e) {
       if (!isDraggingSun) return;
       isDraggingSun = false;
       try {
-        sunWrap.releasePointerCapture(e.pointerId);
+        if (e && e.pointerId && sunWrap.hasPointerCapture && sunWrap.hasPointerCapture(e.pointerId)) {
+          sunWrap.releasePointerCapture(e.pointerId);
+        }
       } catch (err) {}
 
       document.body.classList.remove('sun-dragging');
@@ -617,8 +631,8 @@
       requestTick();
     }
 
-    sunWrap.addEventListener('pointerup', finishSunDrag);
-    sunWrap.addEventListener('pointercancel', finishSunDrag);
+    window.addEventListener('pointerup', finishSunDrag);
+    window.addEventListener('pointercancel', finishSunDrag);
 
     // Double-click resets the sun back to its original heavenly position smoothly
     sunWrap.addEventListener('dblclick', () => {
@@ -699,87 +713,7 @@
     });
   }
 
-  // =========================================================================
-  // 7. SUBSYNC FULL-RES CASE STUDY MODAL LIGHTBOX
-  // =========================================================================
-  const subsyncModal = document.getElementById('subsyncModal');
-  const btnOpenSubsyncModal = document.getElementById('btnOpenSubsyncModal');
-  const btnOpenSubsyncCard = document.getElementById('btnOpenSubsyncCard');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const modalSlideImg = document.getElementById('modalSlideImg');
-  const modalSlideCounter = document.getElementById('modalSlideCounter');
-  const modalSlideCaption = document.getElementById('modalSlideCaption');
-  const btnModalPrev = document.getElementById('btnModalPrev');
-  const btnModalNext = document.getElementById('btnModalNext');
 
-  const SUBSYNC_SLIDES = [
-    { src: 'images/subsync_overview.png', title: 'Problem Statement & The Solution' },
-    { src: 'images/subsync_screens.png', title: 'Core App Screens & Navigation' },
-    { src: 'images/subsync_features.png', title: 'Predictive Renewal Insights' },
-    { src: 'images/subsync_design_system.png', title: 'Design System & Typography Matrix' },
-    { src: 'images/subsync_analytics.png', title: 'Spend Analytics & Categorization' },
-    { src: 'images/subsync_architecture.png', title: 'Information Architecture & User Flows' }
-  ];
-
-  let currentSlideIdx = 0;
-
-  function updateModalSlide(idx) {
-    currentSlideIdx = (idx + SUBSYNC_SLIDES.length) % SUBSYNC_SLIDES.length;
-    if (modalSlideImg) {
-      modalSlideImg.style.opacity = '0.3';
-      modalSlideImg.src = SUBSYNC_SLIDES[currentSlideIdx].src;
-      modalSlideImg.onload = () => {
-        modalSlideImg.style.opacity = '1';
-      };
-    }
-    if (modalSlideCounter) {
-      modalSlideCounter.textContent = `Board ${currentSlideIdx + 1} of ${SUBSYNC_SLIDES.length}`;
-    }
-    if (modalSlideCaption) {
-      modalSlideCaption.textContent = SUBSYNC_SLIDES[currentSlideIdx].title;
-    }
-  }
-
-  function openSubsyncModal() {
-    if (!subsyncModal) return;
-    updateModalSlide(0);
-    subsyncModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeSubsyncModal() {
-    if (!subsyncModal) return;
-    subsyncModal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  if (btnOpenSubsyncModal) {
-    btnOpenSubsyncModal.addEventListener('click', openSubsyncModal);
-  }
-  if (btnOpenSubsyncCard) {
-    btnOpenSubsyncCard.addEventListener('click', openSubsyncModal);
-  }
-  if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', closeSubsyncModal);
-  }
-  if (btnModalPrev) {
-    btnModalPrev.addEventListener('click', () => updateModalSlide(currentSlideIdx - 1));
-  }
-  if (btnModalNext) {
-    btnModalNext.addEventListener('click', () => updateModalSlide(currentSlideIdx + 1));
-  }
-  if (subsyncModal) {
-    subsyncModal.addEventListener('click', (e) => {
-      if (e.target === subsyncModal) closeSubsyncModal();
-    });
-  }
-
-  window.addEventListener('keydown', (e) => {
-    if (!subsyncModal || !subsyncModal.classList.contains('active')) return;
-    if (e.key === 'Escape') closeSubsyncModal();
-    if (e.key === 'ArrowRight') updateModalSlide(currentSlideIdx + 1);
-    if (e.key === 'ArrowLeft') updateModalSlide(currentSlideIdx - 1);
-  });
 
   // =========================================================================
   // 8. FUNCTIONAL CONTACT FORM SUBMISSION
