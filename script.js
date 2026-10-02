@@ -112,6 +112,8 @@
   const mountainLayers = Array.from(document.querySelectorAll('.mountain-layer'));
   const ridgePaths = Array.from(document.querySelectorAll('.ridge-path'));
   const layerSpeeds = [0.03, 0.06, 0.10, 0.15, 0.20, 0.25, 0.30, 0.36];
+  const monumentTitle = document.querySelector('.monument-title');
+  const markName = document.querySelector('.mark-name');
 
   // =========================================================================
   // CELESTIAL ROTATING STAR FIELD (DPR-Crisp Pre-rendered Canvas, 120fps Rotation)
@@ -319,14 +321,19 @@
 
     const fraction = Math.min(1, Math.max(0, currentScrollY / maxScroll));
 
-    // 1. Sinking Celestial Sun (Subtle, elegant sun descends smoothly behind the rising mountains)
+    // 1. Sinking Celestial Sun (Subtle, elegant sun descends smoothly behind the rising mountains + interactive drag)
     if (sunWrap) {
-      const sunY = currentScrollY * 0.44;
+      const scrollSunY = currentScrollY * 0.44;
+      const totalSunX = sunDragOffsetX;
+      const totalSunY = sunDragOffsetY + scrollSunY;
       const sunScale = Math.max(0.65, 1 - fraction * 0.55);
       // Stays visible during green morning/meadow, then gently sets behind the mountain peaks
       const sunOpacity = Math.min(1, Math.max(0, (0.50 - fraction) / 0.14));
-      sunWrap.style.transform = `translate3d(-50%, ${sunY.toFixed(1)}px, 0) scale(${sunScale.toFixed(3)})`;
+      sunWrap.style.transform = `translate3d(calc(-50% + ${totalSunX.toFixed(1)}px), ${totalSunY.toFixed(1)}px, 0) scale(${sunScale.toFixed(3)})`;
       sunWrap.style.opacity = sunOpacity.toFixed(3);
+
+      // Cast subtle, refined ambient and specular light on typography
+      updateSubtleSunLighting(sunOpacity);
     }
 
     // 1b. Celestial Starfield: Fades in as sun sets behind peaks, rotates sideways across midnight
@@ -467,6 +474,184 @@
 
   // Passive scroll listener (Native 120fps/144fps scroll pipeline)
   window.addEventListener('scroll', requestTick, { passive: true });
+
+  // =========================================================================
+  // SUBTLE CELESTIAL SUNLIGHT ENGINE (Restrained, Organic, Zero Glare)
+  // =========================================================================
+  function updateSubtleSunLighting(sunOpacity) {
+    if (!sunWrap || sunOpacity < 0.03) {
+      if (monumentTitle) monumentTitle.style.textShadow = '';
+      if (markName) markName.style.textShadow = '';
+      return;
+    }
+
+    const sunRect = sunWrap.getBoundingClientRect();
+    const sunCenterX = sunRect.left + sunRect.width / 2;
+    const sunCenterY = sunRect.top + sunRect.height / 2;
+
+    // Set CSS properties for subtle background sheen
+    document.documentElement.style.setProperty('--sun-x', `${sunCenterX.toFixed(1)}px`);
+    document.documentElement.style.setProperty('--sun-y', `${sunCenterY.toFixed(1)}px`);
+
+    const isDark = document.body.classList.contains('dark-strata');
+
+    // 1. Subtle, refined directional sunlight on Monument Title
+    if (monumentTitle) {
+      const titleRect = monumentTitle.getBoundingClientRect();
+      const titleCenterX = titleRect.left + titleRect.width * 0.45;
+      const titleCenterY = titleRect.top + titleRect.height * 0.5;
+
+      const dx = sunCenterX - titleCenterX;
+      const dy = sunCenterY - titleCenterY;
+      const dist = Math.hypot(dx, dy);
+
+      // Light reaches up to 1300px
+      const lightFactor = Math.max(0, 1 - dist / 1300) * sunOpacity;
+
+      if (lightFactor > 0.02) {
+        const ux = dx / (dist || 1);
+        const uy = dy / (dist || 1);
+
+        // Subtle specular highlight on the edge facing the sun
+        const hlX = (ux * 2.2).toFixed(1);
+        const hlY = (uy * 2.2).toFixed(1);
+
+        // Soft subtle penumbra on opposite edge
+        const shX = (-ux * 2.8).toFixed(1);
+        const shY = (-uy * 2.8).toFixed(1);
+
+        if (isDark) {
+          const hlA = (0.28 * lightFactor).toFixed(3);
+          const shA = (0.35 * lightFactor).toFixed(3);
+          monumentTitle.style.textShadow = `${hlX}px ${hlY}px 16px rgba(255, 245, 220, ${hlA}), ${shX}px ${shY}px 10px rgba(0, 8, 20, ${shA})`;
+        } else {
+          // Alpine morning: Warm pale gold specular rim + soft ambient shade
+          const hlA = (0.36 * lightFactor).toFixed(3);
+          const shA = (0.08 * lightFactor).toFixed(3);
+          monumentTitle.style.textShadow = `${hlX}px ${hlY}px 14px rgba(255, 248, 225, ${hlA}), ${shX}px ${shY}px 8px rgba(0, 0, 0, ${shA})`;
+        }
+      } else {
+        monumentTitle.style.textShadow = '';
+      }
+    }
+
+    // 2. Subtle directional glow on Studio Header Mark ("Saurav Karande")
+    if (markName) {
+      const markRect = markName.getBoundingClientRect();
+      const markCenterX = markRect.left + markRect.width / 2;
+      const markCenterY = markRect.top + markRect.height / 2;
+
+      const dx = sunCenterX - markCenterX;
+      const dy = sunCenterY - markCenterY;
+      const dist = Math.hypot(dx, dy);
+
+      const markLight = Math.max(0, 1 - dist / 900) * sunOpacity;
+      if (markLight > 0.03) {
+        const ux = dx / (dist || 1);
+        const uy = dy / (dist || 1);
+        const hlX = (ux * 1.5).toFixed(1);
+        const hlY = (uy * 1.5).toFixed(1);
+        const a = (0.30 * markLight).toFixed(3);
+        markName.style.textShadow = `${hlX}px ${hlY}px 10px rgba(255, 246, 218, ${a})`;
+      } else {
+        markName.style.textShadow = '';
+      }
+    }
+  }
+
+  // =========================================================================
+  // CELESTIAL SUN INTERACTIVE DRAG-AND-DROP (Mouse & Touch)
+  // =========================================================================
+  let isDraggingSun = false;
+  let sunStartX = 0;
+  let sunStartY = 0;
+  let sunDragOffsetX = 0;
+  let sunDragOffsetY = 0;
+  let startDragOffsetX = 0;
+  let startDragOffsetY = 0;
+
+  if (sunWrap) {
+    sunWrap.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return; // Only primary mouse button or touch
+      isDraggingSun = true;
+      sunStartX = e.clientX;
+      sunStartY = e.clientY;
+      startDragOffsetX = sunDragOffsetX;
+      startDragOffsetY = sunDragOffsetY;
+
+      try {
+        sunWrap.setPointerCapture(e.pointerId);
+      } catch (err) {}
+
+      document.body.classList.add('sun-dragging');
+      sunWrap.classList.add('dragging');
+      requestTick();
+      e.preventDefault();
+    });
+
+    sunWrap.addEventListener('pointermove', (e) => {
+      if (!isDraggingSun) return;
+      const dx = e.clientX - sunStartX;
+      const dy = e.clientY - sunStartY;
+
+      sunDragOffsetX = startDragOffsetX + dx;
+      sunDragOffsetY = startDragOffsetY + dy;
+
+      // Clamp bounds: anywhere across wide sky down toward mountain ridges
+      const maxH = window.innerWidth * 0.52;
+      sunDragOffsetX = Math.max(-maxH, Math.min(maxH, sunDragOffsetX));
+      sunDragOffsetY = Math.max(-140, Math.min(window.innerHeight * 0.85, sunDragOffsetY));
+
+      requestTick();
+    });
+
+    function finishSunDrag(e) {
+      if (!isDraggingSun) return;
+      isDraggingSun = false;
+      try {
+        sunWrap.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+
+      document.body.classList.remove('sun-dragging');
+      sunWrap.classList.remove('dragging');
+      requestTick();
+    }
+
+    sunWrap.addEventListener('pointerup', finishSunDrag);
+    sunWrap.addEventListener('pointercancel', finishSunDrag);
+
+    // Double-click resets the sun back to its original heavenly position smoothly
+    sunWrap.addEventListener('dblclick', () => {
+      const startTime = performance.now();
+      const fromX = sunDragOffsetX;
+      const fromY = sunDragOffsetY;
+      const duration = 380; // ms
+
+      function animateSunReset(now) {
+        const elapsed = now - startTime;
+        const p = Math.min(1, elapsed / duration);
+        const ease = 1 - Math.pow(1 - p, 3);
+        sunDragOffsetX = fromX * (1 - ease);
+        sunDragOffsetY = fromY * (1 - ease);
+        requestTick();
+
+        if (p < 1) {
+          requestAnimationFrame(animateSunReset);
+        }
+      }
+      requestAnimationFrame(animateSunReset);
+    });
+
+    // Keyboard accessibility: Enter, Space, or Escape resets sun
+    sunWrap.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+        e.preventDefault();
+        sunDragOffsetX = 0;
+        sunDragOffsetY = 0;
+        requestTick();
+      }
+    });
+  }
 
   // Initial render
   requestTick();

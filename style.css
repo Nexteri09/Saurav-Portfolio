@@ -143,15 +143,39 @@ p {
   display: block;
 }
 
-/* The Celestial Sinking Sun (Expansive upper sky room) */
+/* The Celestial Sinking Sun (Interactive Draggable Celestial Element) */
 .celestial-sun-wrap {
   position: absolute;
   top: 70px;
   left: 56%;
   transform: translate3d(-50%, 0, 0);
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
   z-index: 1;
+  padding: 32px;
+  margin: -32px;
+  border-radius: 50%;
   will-change: transform, opacity;
+  outline: none;
+}
+
+.celestial-sun-wrap:hover {
+  cursor: grab;
+}
+
+.celestial-sun-wrap:active,
+.celestial-sun-wrap.dragging,
+body.sun-dragging .celestial-sun-wrap {
+  cursor: grabbing !important;
+}
+
+body.sun-dragging {
+  cursor: grabbing !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 .celestial-sun {
@@ -164,6 +188,17 @@ p {
     0 0 28px 12px rgba(255, 255, 255, 0.95),
     0 0 70px 30px rgba(255, 246, 218, 0.5),
     0 0 110px 45px rgba(255, 238, 195, 0.25);
+  pointer-events: none;
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.celestial-sun-wrap:hover .celestial-sun {
+  transform: scale(1.04);
+}
+
+.celestial-sun-wrap:active .celestial-sun,
+.celestial-sun-wrap.dragging .celestial-sun {
+  transform: scale(0.96);
 }
 
 .sun-corona {
@@ -442,6 +477,34 @@ body.dark-strata .nav-item:hover {
   max-width: 1480px;
   margin: 0 auto;
   padding: 0 clamp(24px, 4.5vw, 64px) 120px;
+  pointer-events: none;
+}
+
+/* Re-enable pointer events on all interactive items & readable text content */
+.exhibition-flow a,
+.exhibition-flow button,
+.exhibition-flow input,
+.exhibition-flow textarea,
+.exhibition-flow select,
+.exhibition-flow label,
+.exhibition-flow .project-card,
+.exhibition-flow .work-card,
+.exhibition-flow .timeline-entry,
+.exhibition-flow .unboxed-point,
+.exhibition-flow .direct-channel-item,
+.exhibition-flow .social-clean-link,
+.exhibition-flow .tool-pill,
+.exhibition-flow .stat-block,
+.exhibition-flow .direct-link,
+.exhibition-flow .btn-unboxed-submit,
+.exhibition-flow .nav-item,
+.exhibition-flow .monument-title,
+.exhibition-flow .hero-manifesto-lead,
+.exhibition-flow .spec-caps,
+.exhibition-flow .head-title,
+.exhibition-flow .about-manifesto,
+.exhibition-flow .lead-text {
+  pointer-events: auto;
 }
 
 
@@ -456,6 +519,7 @@ body.dark-strata .nav-item:hover {
   padding-top: 170px;
   padding-bottom: 240px;
   max-width: 980px;
+  background: radial-gradient(circle 800px at var(--sun-x, 56%) var(--sun-y, 110px), rgba(255, 252, 238, 0.035) 0%, rgba(255, 245, 215, 0.01) 45%, transparent 75%);
 }
 
 .hero-identity-line {
@@ -485,7 +549,7 @@ body.dark-strata .nav-item:hover {
   color: var(--text-hero-title);
   margin-bottom: 24px;
   text-shadow: var(--text-shadow-active);
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.1s ease-out;
 }
 
 /* Explicitly NO colored words */
