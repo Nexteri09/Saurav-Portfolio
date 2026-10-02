@@ -1,0 +1,15 @@
+# Python scratch scripts
+*.py
+*.pyc
+__pycache__/
+
+# Scratch / build files
+take_snapshots.js
+image_map.json
+framer_page.html
+test_ridge.html
+pinterest_ref.jpg
+
+# OS artifacts
+.DS_Store
+Thumbs.db

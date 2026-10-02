@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saurav Karande — UX/UI Designer</title>
+  <meta name="description" content="Portfolio of Saurav Karande. UX/UI Designer based in Mumbai, focused on creating simple, intuitive and visually engaging digital experiences.">
+  
+  <!-- Clean, Modern, Human Sans-Serif & Robust Geometric Typography -->
+  <link rel="icon" type="image/png" href="images/saurav_avatar_sq.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       THE LIVING GEOLOGICAL HORIZON (8-Layer Panorama, Lower Placement)
+       ========================================================================= -->
+  <div class="geological-viewport" id="geoViewport" aria-hidden="true">
+    
+    <!-- Atmospheric Sky Backdrop -->
+    <div class="strata-backdrop" id="strataBackdrop"></div>
+
+    <!-- Celestial Rotating Star Field (Appears after sunset, rotates sideways on scroll) -->
+    <div class="celestial-stars-wrap" id="starsWrap" aria-hidden="true">
+      <canvas id="starsCanvas" class="stars-canvas"></canvas>
+    </div>
+
+    <!-- The Celestial Sun (Expansive upper sky headroom) -->
+    <div class="celestial-sun-wrap" id="sunWrap">
+      <div class="celestial-sun"></div>
+      <div class="sun-corona"></div>
+      <div class="sun-optical-flare" id="sunFlare"></div>
+    </div>
+
+    <!-- Full-Width Panoramic Mountain Strata (Resting low, rising on scroll) -->
+    
+    <!-- Layer 1: Distant ethereal horizon crests -->
+    <div class="mountain-layer layer-1" data-speed="0.03" data-drift="0.01">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-1)" d="M -100 480 Q 220 430, 440 450 T 880 500 Q 1180 440, 1420 430 T 1800 480 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 2: The Grand Central Summit Peak -->
+    <div class="mountain-layer layer-2" data-speed="0.06" data-drift="0.02">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-2)" d="M -100 540 C 180 520, 420 470, 650 420 C 760 395, 840 380, 920 380 C 1000 380, 1100 410, 1280 470 C 1460 530, 1640 510, 1800 540 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 3: Upper-mid undulating shoulders -->
+    <div class="mountain-layer layer-3" data-speed="0.10" data-drift="-0.02">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-3)" d="M -100 590 C 140 575, 320 545, 520 565 C 700 585, 840 645, 1020 655 C 1200 665, 1440 605, 1800 585 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 4: Prominent mid-distance crest -->
+    <div class="mountain-layer layer-4" data-speed="0.15" data-drift="0.03">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-4)" d="M -100 660 C 200 640, 500 670, 800 670 C 1000 670, 1220 600, 1460 560 C 1600 540, 1720 550, 1800 570 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 5: Lower-mid rolling range -->
+    <div class="mountain-layer layer-5" data-speed="0.20" data-drift="-0.03">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-5)" d="M -100 720 C 140 690, 340 680, 500 720 C 680 755, 860 810, 1080 820 C 1320 830, 1560 760, 1800 740 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 6: Mid-lower rolling slopes -->
+    <div class="mountain-layer layer-6" data-speed="0.25" data-drift="0.04">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-6)" d="M -100 790 C 200 780, 440 830, 700 830 C 960 830, 1220 780, 1440 800 C 1620 820, 1720 840, 1800 850 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 7: Lower foothills -->
+    <div class="mountain-layer layer-7" data-speed="0.30" data-drift="-0.04">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-7)" d="M -100 860 C 260 850, 520 885, 820 870 C 1060 850, 1320 880, 1540 865 C 1660 855, 1740 865, 1800 875 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- Layer 8: Frontmost silhouetted ridge -->
+    <div class="mountain-layer layer-8" data-speed="0.36" data-drift="0.05">
+      <svg viewBox="-100 0 1800 1600" preserveAspectRatio="none" class="layer-svg">
+        <path class="ridge-path" fill="var(--m-layer-8)" d="M -100 930 C 120 940, 260 970, 420 980 C 620 990, 800 1010, 1040 1010 C 1280 1010, 1500 970, 1800 990 L 1800 1600 L -100 1600 Z" />
+      </svg>
+    </div>
+
+    <!-- The Earth's Molten Crust (rises at bottom) -->
+    <div class="molten-crust-glow" id="moltenGlow"></div>
+
+    <!-- Subtle atmospheric grain -->
+    <div class="subtle-grain"></div>
+  </div>
+
+
+  <!-- =========================================================================
+       MINIMAL UNINTRUSIVE HEADER (Pure Typographic Mark)
+       ========================================================================= -->
+  <header class="studio-header">
+    <div class="header-inner">
+      <a href="#top" class="studio-mark">
+        <span class="mark-name">Saurav Karande</span>
+      </a>
+
+      <nav class="studio-nav">
+        <a href="#work" class="nav-item">Work</a>
+        <a href="#how-i-work" class="nav-item">How I Work</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#contact" class="nav-item">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- =========================================================================
+       EDITORIAL CONTENT FLOW (Sitting in Open, Luminous Upper Space)
+       ========================================================================= -->
+  <main class="exhibition-flow" id="top">
+
+    <!-- =======================================================================
+         1. HERO: Expansive, Modern Typography (No Photo Duplication)
+         ======================================================================= -->
+    <section class="monument-hero">
+      
+      <div class="hero-identity-line">
+        <span class="spec-caps">UX/UI Designer</span>
+        <span class="spec-caps">Mumbai, India</span>
+      </div>
+
+      <h1 class="monument-title">
+        Turning ideas into simple, intuitive, and visually engaging digital experiences.
+      </h1>
+
+      <div class="hero-direct-links">
+        <a href="#work" class="direct-link">Explore Selected Work &darr;</a>
+        <a href="#contact" class="direct-link">Let's Talk &rarr;</a>
+        <a href="mailto:sauravkarande48@gmail.com" class="direct-link email-link">sauravkarande48@gmail.com</a>
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================================
+         2. SELECTED WORK: Clean, Premium Project Showcase (No Fake Console Bars)
+         ======================================================================= -->
+    <section class="monument-works" id="work">
+      
+      <div class="monument-section-head">
+        <h2 class="head-title"><span class="title-solid">Featured</span> <span class="title-outline">Projects</span></h2>
+      </div>
+
+      <div class="projects-grid">
+        <!-- PROJECT 01: SubSync -->
+        <article class="project-showcase-card" id="project-subsync">
+          <div class="project-media-wrap" id="btnOpenSubsyncCard" role="button" tabindex="0" aria-label="Open SubSync Case Study">
+            <img src="images/subsync_cover.png" alt="SubSync App Mockup" class="project-media-img" loading="lazy">
+            <div class="project-media-overlay">
+              <span class="media-hover-pill">
+                <span>View Case Study</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="project-meta-row">
+            <div class="project-tag-list">
+              <span class="proj-tag">Mobile App</span>
+              <span class="proj-tag">Subscription Tracker</span>
+              <span class="proj-tag">2026</span>
+            </div>
+            <h3 class="project-heading">SubSync</h3>
+            <p class="project-summary">
+              A simple subscription management experience designed to help users track and manage recurring subscriptions.
+            </p>
+            <div class="project-action-col">
+              <button class="btn-clean-casestudy" id="btnOpenSubsyncModal" type="button">
+                View Case Study &rarr;
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 02: Upcoming Case Study -->
+        <article class="project-showcase-card" id="project-upcoming">
+          <div class="project-media-wrap">
+            <img src="images/upcoming_cover.png" alt="Upcoming Case Study Preview" class="project-media-img" loading="lazy">
+            <div class="project-media-badge">
+              <span>In Progress · 2026</span>
+            </div>
+          </div>
+
+          <div class="project-meta-row">
+            <div class="project-tag-list">
+              <span class="proj-tag">Product Design</span>
+              <span class="proj-tag">Systems & FinTech</span>
+              <span class="proj-tag">Concept</span>
+            </div>
+            <h3 class="project-heading">Upcoming Case Study</h3>
+            <p class="project-summary">
+              Next-generation digital experience exploring intuitive interaction models, responsive UI systems, and seamless workflows.
+            </p>
+          </div>
+        </article>
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================================
+         3. HOW I WORK: Unboxed 4 Pillars (2 on each side, zero card containers)
+         ======================================================================= -->
+    <section class="monument-manifesto" id="how-i-work">
+      
+      <div class="monument-section-head">
+        <h2 class="head-title"><span class="title-solid">How I</span> <span class="title-outline">Work</span></h2>
+      </div>
+
+      <div class="how-i-work-spread">
+        
+        <!-- Left Side: Points 01 & 03 -->
+        <div class="pillar-col pillar-col-left">
+          <div class="unboxed-point">
+            <span class="point-num">01</span>
+            <h3 class="point-title">AI-Assisted Workflow</h3>
+            <p class="point-desc">
+              I use AI tools to brainstorm ideas, explore directions, refine content, and speed up repetitive tasks. I see AI as a creative assistant that supports my process while keeping design decisions grounded in user needs.
+            </p>
+          </div>
+
+          <div class="unboxed-point">
+            <span class="point-num">03</span>
+            <h3 class="point-title">Problem Solving</h3>
+            <p class="point-desc">
+              I enjoy breaking complex challenges into smaller, manageable problems. I explore different solutions and focus on practical design decisions that balance user needs with product goals.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Side: Points 02 & 04 -->
+        <div class="pillar-col pillar-col-right">
+          <div class="unboxed-point">
+            <span class="point-num">02</span>
+            <h3 class="point-title">Attention to Detail</h3>
+            <p class="point-desc">
+              I pay attention to the small details that shape an experience from spacing and hierarchy to interactions and consistency. Thoughtful details help make a product feel clear, polished, and intentional.
+            </p>
+          </div>
+
+          <div class="unboxed-point">
+            <span class="point-num">04</span>
+            <h3 class="point-title">Always Learning</h3>
+            <p class="point-desc">
+              UX and technology are constantly evolving, and so am I. I'm continuously learning new tools, exploring AI-assisted workflows, studying products, and improving my design process.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================================
+         4. ABOUT SAURAV: Unboxed Editorial Spread (No Container Cards)
+         ======================================================================= -->
+    <section class="monument-biography" id="about">
+      
+      <div class="monument-section-head">
+        <h2 class="head-title"><span class="title-solid">About</span> <span class="title-outline">Me</span></h2>
+      </div>
+
+      <div class="about-unboxed-spread">
+        
+        <!-- Left Side: Saurav's Portrait & Core Toolkit (Free Floating) -->
+        <div class="about-visual-side">
+          <div class="about-portrait-wrap">
+            <img src="images/saurav_actual_portrait.png" alt="Saurav Karande" class="about-photo-unboxed" loading="lazy">
+          </div>
+          
+          <div class="about-toolkit-wrap">
+            <div class="tools-label">Core Toolkit & Stack</div>
+            <div class="toolkit-chips-row">
+              <div class="tool-pill">
+                <img src="images/icon_figma.png" alt="Figma">
+                <span>Figma</span>
+              </div>
+              <div class="tool-pill">
+                <img src="images/icon_framer.png" alt="Framer">
+                <span>Framer</span>
+              </div>
+              <div class="tool-pill">
+                <img src="images/icon_figjam.png" alt="FigJam">
+                <span>FigJam</span>
+              </div>
+              <div class="tool-pill">
+                <img src="images/icon_ai.png" alt="AI Tools">
+                <span>AI Tools</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Expansive Editorial Narrative & Education Timeline -->
+        <div class="about-editorial-side">
+          <div class="editorial-bio-lead">
+            <p class="bio-text-lg">
+              Hey! I'm Saurav, a UX/UI designer from Mumbai, focused on creating simple, intuitive and visually engaging digital experiences.
+            </p>
+            <p class="bio-text-lg">
+              I believe good design lives in the details — from thoughtful micro-interactions to clear information architecture. My goal is always to balance user needs with business goals, crafting products that feel effortless and intentional.
+            </p>
+          </div>
+
+          <div class="unboxed-timeline">
+            <div class="timeline-entry">
+              <span class="entry-year">2023 — 2026</span>
+              <div class="entry-content">
+                <h4 class="entry-title">B.Sc. Information Technology</h4>
+                <p class="entry-sub">D.G. Ruparel College, Mumbai (University of Mumbai)</p>
+              </div>
+            </div>
+
+            <div class="timeline-entry">
+              <span class="entry-year">2021 — 2023</span>
+              <div class="entry-content">
+                <h4 class="entry-title">HSC (Information Technology & Science)</h4>
+                <p class="entry-sub">D.G. Ruparel College, Mumbai</p>
+              </div>
+            </div>
+
+            <div class="timeline-entry">
+              <span class="entry-year">Professional Certification</span>
+              <div class="entry-content">
+                <h4 class="entry-title">Google UX Design Professional Certificate</h4>
+                <p class="entry-sub">User heuristics, wireframing, usability study, prototyping & information architecture</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================================
+         5. THE CORE: Molten Magma & Unboxed "Let's talk." Spread
+         ======================================================================= -->
+    <section class="monument-core" id="contact">
+      <div class="monument-section-head">
+        <h2 class="head-title"><span class="title-solid">Let's</span> <span class="title-outline">Talk.</span></h2>
+      </div>
+
+      <div class="contact-unboxed-spread">
+        
+        <!-- Left Side: Editorial Lead & Minimalist Form (Aligned to left margin) -->
+        <div class="contact-action-side">
+          <p class="contact-lead-desc">
+            Have a project in mind or want to collaborate? Fill out the form, we'll get back to you soon.
+          </p>
+
+          <form class="unboxed-contact-form" id="contactForm">
+            <div class="unboxed-field">
+              <label class="field-label" for="userName">Name</label>
+              <input class="underline-input" type="text" id="userName" name="name" placeholder="Your name" required>
+            </div>
+
+            <div class="unboxed-field">
+              <label class="field-label" for="userEmail">Email</label>
+              <input class="underline-input" type="email" id="userEmail" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="unboxed-field">
+              <label class="field-label" for="userProject">Your Message</label>
+              <textarea class="underline-textarea" id="userProject" name="project" placeholder="Tell me about what you're working on..." required></textarea>
+            </div>
+
+            <button class="btn-unboxed-submit" type="submit" id="btnSubmitForm">
+              <span>Send Message</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right Side: Direct Coordinates & Network -->
+        <div class="contact-details-side">
+          <div class="direct-channel-list">
+            <div class="direct-channel-item">
+              <span class="channel-label">Direct Email</span>
+              <a href="mailto:sauravkarande48@gmail.com" class="channel-value email-value">sauravkarande48@gmail.com</a>
+            </div>
+
+            <div class="direct-channel-item">
+              <span class="channel-label">Voice & WhatsApp</span>
+              <a href="tel:+918591709515" class="channel-value">+91 8591709515</a>
+            </div>
+
+            <div class="direct-channel-item">
+              <span class="channel-label">Location</span>
+              <span class="channel-value-static">Mumbai, India // UTC+5:30</span>
+            </div>
+
+            <div class="direct-channel-item">
+              <span class="channel-label">Design Creed</span>
+              <span class="channel-creed">Design. Solve. Evolve.</span>
+            </div>
+          </div>
+
+          <div class="unboxed-network-row">
+            <a href="https://www.linkedin.com/in/saurav-karande-789328412/" target="_blank" rel="noopener noreferrer" class="social-text-link">LinkedIn &nearr;</a>
+            <a href="https://www.behance.net/sauravkarande11" target="_blank" rel="noopener noreferrer" class="social-text-link">Behance &nearr;</a>
+            <a href="https://dribbble.com/saurav-karande" target="_blank" rel="noopener noreferrer" class="social-text-link">Dribbble &nearr;</a>
+            <button class="social-text-link copy-pill" id="btnCopyEmail" type="button">Copy Email</button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================================
+       CLEAN FULL-RES CASE STUDY MODAL LIGHTBOX (SUBSYNC)
+       ========================================================================= -->
+  <div class="case-modal" id="subsyncModal" role="dialog" aria-modal="true" aria-label="SubSync Case Study Slides">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h4 class="modal-title">SubSync Case Study</h4>
+          <span class="modal-counter" id="modalSlideCounter">Board 1 of 6</span>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <img src="images/subsync_overview.png" alt="SubSync Case Study Board" class="modal-slide-img" id="modalSlideImg">
+      </div>
+      <div class="modal-footer">
+        <button class="modal-nav-btn" id="btnModalPrev" type="button">&larr; Previous</button>
+        <span class="modal-caption" id="modalSlideCaption">Project Overview</span>
+        <button class="modal-nav-btn" id="btnModalNext" type="button">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       SUBTLE ARCHITECTURAL FOOTER
+       ========================================================================= -->
+  <footer class="monument-footer">
+    <div class="footer-inner">
+      <span>Saurav Karande</span>
+      <span>UX/UI Designer · Mumbai</span>
+      <span>Design. Solve. Evolve.</span>
+    </div>
+  </footer>
+
+  <div class="minimal-toast" id="minimalToast" role="status">
+    Copied to clipboard
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
